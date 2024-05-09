@@ -79,7 +79,7 @@ module "eks" {
     # One access entry with a policy associated
     poc = {
       kubernetes_groups = []
-      principal_arn     = var.iam_role_eks_cluster
+      principal_arn     = var.iam_role_eks_cluster_arn
 
       policy_associations = {
         poc= {

@@ -34,6 +34,14 @@ variable "iam_role_eks_cluster" {
 variable "iam_role_node_instance" {
   type = string
 }
+
+variable "iam_role_eks_cluster_arn" {
+  type = string
+}
+
+variable "iam_role_node_instance_arn" {
+  type = string
+}
 variable "public_subnets" {
   type = list
 }

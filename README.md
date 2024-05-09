@@ -28,7 +28,8 @@ aws s3 ls --profile AdministratorAccess-222840051954
 bash-3.2$ 
 
 bash-3.2$ export AWS_PROFILE=AdministratorAccess-222840051954
-bash-3.2$ terraform plan -var-file=poc.tfvars
+bash-3.2$ terraform plan -var-file=poc.tfvars -out=poc_plan.out
+terraform apply -var-file=poc.tfvars
 ```
 - Please Read the Readme_EKS.md to create the EKS cluster
 - Please Read the Readme_deployJenkins.md to deploy the helm chart
