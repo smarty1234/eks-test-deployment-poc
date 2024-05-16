@@ -34,3 +34,7 @@ jenkins-bf6b8d5fb-2gfk8   1/1     Running   0          88m
 
 12. Open Jenkins UI at <Node-PublicIP>:32000and use the above password
 
+## Login to EC2 to gather information
+
+1. Open the IAM role  attached to the VM and add policy `AmazonEC2RoleforSSM` and `AmazonSSMManagedEC2InstanceDefaultPolicy`
+2. Install the `docker pipeline` plugin
