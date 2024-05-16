@@ -1,0 +1,5 @@
+server.port=8080
+
+weathermap.api.key=<from website>
+geocoder.base.url=http://api.openweathermap.org/geo/1.0
+openweather.base.url=http://api.openweathermap.org/data/2.5
