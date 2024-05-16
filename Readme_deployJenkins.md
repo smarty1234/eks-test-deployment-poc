@@ -49,11 +49,12 @@ jenkins-bf6b8d5fb-2gfk8   1/1     Running   0          88m
 11. `systemctl start docker.service`
 12. `docker ps`
 13. `yum install git` y
-14.  Install the `docker pipeline` plugin, `Amazon EC2` plugin, `Docker` Plugin, `GitHub Integration` plugin, `Kubernetes` plugin and `Parameterized Trigger ` plugin and Restart
+14.  Install the `docker pipeline` plugin, `Amazon EC2` plugin, `Docker` Plugin, `GitHub Integration` plugin, `Kubernetes` plugin, `Kubernetes CLI`, `Kubernetes Credentials Provider`, `Kubernetes Pipeline Plugin` and `Parameterized Trigger ` plugin and Restart
 15. Go to cluster and get Cluster API url: `https://5F165D57YYSYSYSS9DEF3A3DSSSC175.gr7.us-east-2.eks.amazonaws.com`
 16. jenkins, add cloud named `Kubernetes` - give above url and select service account. Test connection
-15. configured the Docker Hub credential (using Docker Hub account credentials)
-16. Jenkins url not needed as this itself in EKS
-16. GitHub credentials (using GitHub account credential token)
+17. configured the Docker Hub credential (using Docker Hub account credentials)
+18. Jenkins url not needed as this itself in EKS
+19. GitHub credentials (using GitHub account credential token)
 
-15. Once Jenkins restart - use this repo and point to JenkinsFile-1
+20. Once Jenkins restart - use this repo and point to JenkinsFile-1
+21. Jenkins agent reference: `https://github.com/jenkinsci/docker-agent`
