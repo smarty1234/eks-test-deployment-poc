@@ -1,31 +1,30 @@
 Deploying Jenkins as a Kubernetes Service with Helm Chart
+- Preinstall Check of EKS
 
-1. Create a service account with sufficient permissions to deploy pods and access persistent volumes in EKS
-  `kubectl create serviceaccount jenkins`
--  the cluster-admin role is a built-in Kubernetes role that grants full control over every resource in the cluster
-   - Create an IAM Policy: Define a policy that grants the necessary permissions for the cluster-admin role.
-     This policy should include permissions to perform actions on all Kubernetes resources within the EKS cluster.
-   - Attach the Policy to an IAM Role or User: Once you have the policy, you can attach it to an IAM role or user.
-     This role or user will then inherit the permissions defined in the policy.
-   - Associate the IAM Role or User with the Kubernetes Cluster: Finally, you need to associate the IAM role or user with the Kubernetes cluster.
-      This step allows the IAM entity to authenticate with the cluster and assume the cluster-admin role.
+1. Open a terminal in MacBook and Apply SSO KEYS as follows
+export AWS_ACCESS_KEY_ID=
+export AWS_SECRET_ACCESS_KEY=
+export AWS_SESSION_TOKEN=
+2. assuming kubectl is already installed
+`aws eks update-kubeconfig --region us-east-2 --name <cluster name>`
+3. Verify kubectl is working `kubectl get ns`
+4. Create a name spece for devops tools: `kubectl create namespace devops-tools`
+5. `cd jenkins-eks`
+6. `kubectl apply -f sa.yaml` < create service account
+7. get hostname of node to create PVC: `kubectl get nodes`
 
-2.        `kubectl create clusterrolebinding jenkins-admin 
-     --clusterrole=cluster-admin 
-     --serviceaccount=default:jenkins`
+bash-3.2$ kubectl get nodes
+NAME                                       STATUS   ROLES    AGE     VERSION
+ip-10-0-52-70.us-east-2.compute.internal   Ready    <none>   6d18h   v1.29.3-eks-ae9a62a
+8. add the node to the volume.yaml and execute: `kubectl create -f volume.yaml`
+9. Deploy jenkins: `kubectl apply -f deployment.yaml`
+10. Make sure it is done: `kubectl describe deployments --namespace=devops-tools`
+11. Add service as node-port 32000: 
+bash-3.2$ kubectl get pods -n devops-tools
+NAME                      READY   STATUS    RESTARTS   AGE
+jenkins-bf6b8d5fb-2gfk8   1/1     Running   0          88m
 
-3. Add the official Jenkins Helm repository to your local Helm client
-    `helm repo add jenkins https://charts.jenkins.io`
-     `helm repo update`
+`kubectl exec -it jenkins-bf6b8d5fb-2gfk8 cat /var/jenkins_home/secrets/initialAdminPassword -n devops-tools`
 
-4. `helm install mypocjenkins jenkins/jenkins \
-  --set persistence.enabled=true \
-  --set persistence.storageClass=io1 \
-  --set serviceAccount.name=jenkins \
-  --set service.type=LoadBalancer`
-# Jenkins is build heavy - used io1 type storage class
-5. `kubectl get service mypocjenkins -o jsonpath='{.status.loadBalancer.ingress[0].ip}'`
-6. `kubectl logs pod/mypocjenkins-init -c init-jenkins` # get first time password
-7. Used Route53 to use the ALB as CNAME and add a domain with ACM
-8. Open Jenkins in GUI
-9. If things don't work trouble shoot - Security Groups, Network use Amazon VPC Reachability Analyzer
+12. Open Jenkins UI at <Node-PublicIP>:32000and use the above password
+
