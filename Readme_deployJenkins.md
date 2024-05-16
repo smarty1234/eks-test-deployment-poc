@@ -52,9 +52,23 @@ jenkins-bf6b8d5fb-2gfk8   1/1     Running   0          88m
 14.  Install the `docker pipeline` plugin, `Amazon EC2` plugin, `Docker` Plugin, `GitHub Integration` plugin, `Kubernetes` plugin, `Kubernetes CLI`, `Kubernetes Credentials Provider`, `Kubernetes Pipeline Plugin` and `Parameterized Trigger ` plugin and Restart
 15. Go to cluster and get Cluster API url: `https://5F165D57YYSYSYSS9DEF3A3DSSSC175.gr7.us-east-2.eks.amazonaws.com`
 16. jenkins, add cloud named `Kubernetes` - give above url and select service account. Test connection
+17. Pad Labels: Key: `jenkins` Value: `agent` - Save
+18. Go to Pod Template: `jenkins/inbound-agent:4.3-7-alpine` working directory `/home/jenkins/agent` - remove sleep and 999999 etc.
+19. `http://ec2-52-15-142-162.us-east-2.compute.amazonaws.com:32000/job/test1/configure` add Label Expression: `kubeagent`
+20. Go to Build Steps - bring up Shell - `echo Testing` - Save and click `Build Now`
+
 17. configured the Docker Hub credential (using Docker Hub account credentials)
 18. Jenkins url not needed as this itself in EKS
 19. GitHub credentials (using GitHub account credential token)
-
-20. Once Jenkins restart - use this repo and point to JenkinsFile-1
-21. Jenkins agent reference: `https://github.com/jenkinsci/docker-agent`
+20. install java in node: `yum search java-17-amazon-corretto-headless` at /tmp
+21. `yum install java-17-amazon-corretto-headless.x86_64`
+22. `java --version`
+```
+root@ip-10-0-52-70 tmp]# java --version
+openjdk 17.0.11 2024-04-16 LTS
+OpenJDK Runtime Environment Corretto-17.0.11.9.1 (build 17.0.11+9-LTS)
+OpenJDK 64-Bit Server VM Corretto-17.0.11.9.1 (build 17.0.11+9-LTS, mixed mode, sharing)
+```
+23. Open jnlp port `50000` from `3.16.146.0/29`
+23. Once Jenkins restart - use this repo and point to JenkinsFile-1
+24. Jenkins agent reference: `https://github.com/jenkinsci/docker-agent`
