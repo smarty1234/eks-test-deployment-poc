@@ -34,7 +34,23 @@ jenkins-bf6b8d5fb-2gfk8   1/1     Running   0          88m
 
 12. Open Jenkins UI at <Node-PublicIP>:32000and use the above password
 
-## Login to EC2 to gather information
+## Do a test build to validate Jenkins using docker
 
 1. Open the IAM role  attached to the VM and add policy `AmazonEC2RoleforSSM` and `AmazonSSMManagedEC2InstanceDefaultPolicy`
-2. Install the `docker pipeline` plugin
+2. login to ECE Amazon Linux
+3. `yum update` yes
+4. `yum search docker`
+5. `yum info docker`
+6. `yum install docker` y
+7. `usermod -a -G docker ec2-user`
+8. `id ec2-user`
+9. `newgrp docker`
+10. `systemctl enable docker.service`
+11. `systemctl start docker.service`
+12. `docker ps`
+13. `yum install git` y
+14.  Install the `docker pipeline` plugin, `Amazon EC2` plugin, `Docker` Plugin, `GitHub Integration` plugin and `Parameterized Trigger ` plugin and Restart
+15. configured the Docker Hub credential (using Docker Hub account credentials)
+16. GitHub credentials (using GitHub account credential token)
+
+15. Once Jenkins restart - use this repo and point to JenkinsFile-1
