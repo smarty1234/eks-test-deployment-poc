@@ -70,5 +70,42 @@ OpenJDK Runtime Environment Corretto-17.0.11.9.1 (build 17.0.11+9-LTS)
 OpenJDK 64-Bit Server VM Corretto-17.0.11.9.1 (build 17.0.11+9-LTS, mixed mode, sharing)
 ```
 23. Open jnlp port `50000` from `3.16.146.0/29`
+24. install `kubectl`
+```
+`cd /tmp`
+`curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.3/2024-04-19/bin/linux/amd64/kubectl
+`
+`chmod +x ./kubectl`
+`mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH`
+`su - ec2-user`
+`mkdir -p $HOME/bin && cp /tmp/kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH`
+```
+25. verify version
+```
+[ec2-user@ip-10-0-52-70 ~]$ kubectl version
+Client Version: v1.29.3-eks-ae9a62a
+Kustomize Version: v5.0.4-0.20230601165947-6ce0bf390ce3
+```
+26. update to latest version of aws cli
+```
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install --update
+```
+27. Verify
+```
+[root@ip-10-0-52-70 tmp]# /usr/local/bin/aws --version
+aws-cli/2.15.51 Python/3.11.8 Linux/5.10.215-203.850.amzn2.x86_64 exe/x86_64.amzn.2
+```
+28. Execute the following in a new job test-kubectl
+```
+/usr/local/bin/aws --version
+kubectl version
+aws eks update-kubeconfig --region us-east-2 --name mpadhi-test-cluster
+kubectl get pods -n devops-tools
+kubectl get pods -A
+kubectl get deployment -n devops-tools
+kubectl get svc -n devopstools
+```
 23. Once Jenkins restart - use this repo and point to JenkinsFile-1
 24. Jenkins agent reference: `https://github.com/jenkinsci/docker-agent`
